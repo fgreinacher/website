@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<html lang="de" class="dark">
+<html lang="de" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Florian Greinacher</title>
-  
-  <!-- Fonts: Inter & Newsreader for editorial contrast -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -23,291 +15,134 @@
         extend: {
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
-            serif: ['Newsreader', 'serif'],
           },
           colors: {
-            obsidian: '#0a0a0c',
-            surface: '#111115',
-            surfaceBorder: 'rgba(255, 255, 255, 0.08)',
-            accent: '#3b82f6',
-          },
-          animation: {
-            'fade-in': 'fadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0', transform: 'translateY(12px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            }
+            obsidian: '#090a0f',
+            cardBg: 'rgba(255, 255, 255, 0.025)',
+            cardBorder: 'rgba(255, 255, 255, 0.07)',
           }
         }
       }
     }
   </script>
-
   <style>
-    /* Subtle custom radial gradient glow following cursor */
-    .mouse-glow {
+    body {
+      background-color: #090a0f;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .ambient-glow {
       position: fixed;
       width: 600px;
       height: 600px;
       border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, rgba(99, 102, 241, 0.03) 40%, transparent 70%);
       pointer-events: none;
       transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.07) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
-      transition: opacity 0.4s ease;
-      z-index: 1;
-    }
-
-    /* Grain texture overlay */
-    .grain {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-    }
-
-    /* Subtle border shimmer on cards */
-    .glass-card {
-      background: rgba(17, 17, 21, 0.7);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-    
-    .glass-card:hover {
-      border-color: rgba(255, 255, 255, 0.16);
+      z-index: 0;
+      transition: opacity 0.3s ease;
     }
   </style>
 </head>
-<body class="bg-obsidian text-zinc-300 font-sans antialiased min-h-screen selection:bg-zinc-800 selection:text-white relative overflow-x-hidden flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-800 selection:text-white relative">
 
-  <!-- Interactive cursor ambient light -->
-  <div id="glow" class="mouse-glow opacity-0 sm:opacity-100"></div>
+  <!-- Interactive Ambient Cursor Glow -->
+  <div id="glow" class="ambient-glow opacity-0 md:opacity-100"></div>
 
-  <!-- Subtle noise layer -->
-  <div class="fixed inset-0 grain pointer-events-none z-10"></div>
+  <!-- Background Grid Pattern -->
+  <div class="fixed inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px]"></div>
 
-  <!-- Background decorative light gradients -->
-  <div class="fixed top-[-10vw] left-[20vw] w-[45vw] h-[45vw] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
-  <div class="fixed bottom-[-10vw] right-[10vw] w-[40vw] h-[40vw] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none"></div>
-
-  <!-- Main Container -->
-  <div class="relative z-20 max-w-2xl mx-auto w-full px-6 py-16 sm:py-24 flex-1 flex flex-col justify-center">
+  <!-- Main Content Container -->
+  <main class="relative z-10 w-full max-w-2xl mx-auto px-6 py-20 flex-1 flex flex-col justify-center">
 
     <!-- Header Section -->
-    <header class="space-y-4 animate-fade-in" style="animation-delay: 100ms;">
-      <!-- Status Badge / Moniker -->
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono tracking-wide bg-zinc-900/90 text-zinc-400 border border-zinc-800/80">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span id="statusTicker" class="cursor-pointer hover:text-zinc-200 transition-colors" title="Klicken für neuen Status">
-          status: automating pipelines &amp; debugging teenage logic
-        </span>
+    <header class="space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-white/[0.04] border border-white/[0.08] text-neutral-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>online & building</span>
       </div>
 
-      <!-- Name -->
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-white">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white">
         Florian Greinacher
       </h1>
-    </header>
 
-    <!-- Bio / Statement Section -->
-    <main class="mt-8 space-y-6 animate-fade-in" style="animation-delay: 200ms;">
-      <!-- Key Quote 1: Headline style -->
-      <p class="text-xl sm:text-2xl font-light text-zinc-100 leading-relaxed font-sans">
+      <p class="text-lg sm:text-xl text-neutral-400 font-light leading-relaxed">
         Raising kids, building software, and staying strong.
       </p>
+    </header>
 
-      <!-- Key Quote 2: Editorial serif contrast & wit -->
-      <div class="pl-4 border-l-2 border-zinc-700/60 py-1 space-y-2">
-        <p class="text-lg sm:text-xl italic font-serif text-zinc-300 leading-relaxed">
-          Partner to my incredible wife. Director of AI agents (who occasionally follow instructions). Lover of stylish things.
+    <!-- 4 Pillar Cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-10">
+      
+      <!-- Card 1 -->
+      <div class="p-4 rounded-2xl bg-cardBg border border-cardBorder hover:border-white/20 transition-all duration-200">
+        <div class="flex items-center gap-2.5 mb-2">
+          <span class="text-xs px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-400 font-mono">01</span>
+          <h2 class="text-sm font-medium text-neutral-200">Code & AI Wrangling</h2>
+        </div>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Building industrial systems and politely asking LLM agents not to hallucinate at 2 AM.
         </p>
-        <p class="text-xs sm:text-sm font-mono text-zinc-500">
-          // Automating systems by day, negotiating house rules by night, deadlifting in between.
+      </div>
+
+      <!-- Card 2 -->
+      <div class="p-4 rounded-2xl bg-cardBg border border-cardBorder hover:border-white/20 transition-all duration-200">
+        <div class="flex items-center gap-2.5 mb-2">
+          <span class="text-xs px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 font-mono">02</span>
+          <h2 class="text-sm font-medium text-neutral-200">Chaos Engineering (Kids)</h2>
+        </div>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Running production with teenagers. Zero rollback policy, infinite merge conflicts.
         </p>
       </div>
 
-      <!-- Core Pillars / Focus Areas -->
-      <div class="pt-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <!-- Pillar 1 -->
-        <div class="glass-card rounded-xl p-4 transition-all duration-300 hover:scale-[1.01]">
-          <div class="flex items-start gap-3">
-            <div class="p-2 rounded-lg bg-zinc-800/70 text-blue-400 shrink-0 mt-0.5">
-              <i data-lucide="terminal" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <div class="text-sm font-medium text-zinc-200">Industrial Code &amp; Agents</div>
-              <p class="text-xs text-zinc-400 mt-1 leading-normal">
-                DevOps, CI/CD and software architecture. If it can't run in a terminal or break under high throughput, it's not finished.
-              </p>
-              <div class="mt-2 text-[10px] font-mono text-zinc-500">uptime: 99.9% (except family roadtrips)</div>
-            </div>
-          </div>
+      <!-- Card 3 -->
+      <div class="p-4 rounded-2xl bg-cardBg border border-cardBorder hover:border-white/20 transition-all duration-200">
+        <div class="flex items-center gap-2.5 mb-2">
+          <span class="text-xs px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-400 font-mono">03</span>
+          <h2 class="text-sm font-medium text-neutral-200">Heavy Lifting</h2>
         </div>
-
-        <!-- Pillar 2 -->
-        <div class="glass-card rounded-xl p-4 transition-all duration-300 hover:scale-[1.01]">
-          <div class="flex items-start gap-3">
-            <div class="p-2 rounded-lg bg-zinc-800/70 text-rose-400 shrink-0 mt-0.5">
-              <i data-lucide="users" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <div class="text-sm font-medium text-zinc-200">Parenting &amp; Chaos Ops</div>
-              <p class="text-xs text-zinc-400 mt-1 leading-normal">
-                Deploying humans into production. Unpredictable edge cases, zero rollback possibilities, highly rewarding runtime.
-              </p>
-              <div class="mt-2 text-[10px] font-mono text-zinc-500">status: permanent alert state</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pillar 3 -->
-        <div class="glass-card rounded-xl p-4 transition-all duration-300 hover:scale-[1.01]">
-          <div class="flex items-start gap-3">
-            <div class="p-2 rounded-lg bg-zinc-800/70 text-amber-400 shrink-0 mt-0.5">
-              <i data-lucide="activity" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <div class="text-sm font-medium text-zinc-200">Endurance &amp; Iron</div>
-              <p class="text-xs text-zinc-400 mt-1 leading-normal">
-                Zone 2 cardio and heavy lifting. Proving that middle-age strength gains are mathematically and physically viable.
-              </p>
-              <div class="mt-2 text-[10px] font-mono text-zinc-500">metric: bar loaded &gt; excuses</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pillar 4 -->
-        <div class="glass-card rounded-xl p-4 transition-all duration-300 hover:scale-[1.01]">
-          <div class="flex items-start gap-3">
-            <div class="p-2 rounded-lg bg-zinc-800/70 text-emerald-400 shrink-0 mt-0.5">
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
-            </div>
-            <div>
-              <div class="text-sm font-medium text-zinc-200">Aesthetics &amp; Coffee</div>
-              <p class="text-xs text-zinc-400 mt-1 leading-normal">
-                Crisp typography, minimal clutter, excellent espresso, and an acute allergy to overcomplicated workflows.
-              </p>
-              <div class="mt-2 text-[10px] font-mono text-zinc-500">vibe: sharp &bull; uncluttered</div>
-            </div>
-          </div>
-        </div>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Picking heavy things up and putting them back down so debugging doesn’t break my spine.
+        </p>
       </div>
 
-      <!-- Action & Contact Box -->
-      <div class="pt-6 flex flex-wrap items-center gap-3">
-        <!-- Direct Mail Button -->
-        <a id="mailBtn" 
-           href="mailto:florian@greinacher.de" 
-           class="group inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-medium text-sm transition-all duration-200 hover:bg-zinc-200 active:scale-95 shadow-sm shadow-white/10">
-          <i data-lucide="mail" class="w-4 h-4 transition-transform group-hover:-translate-y-0.5"></i>
-          <span>Say Hello</span>
-        </a>
-
-        <!-- LinkedIn Link -->
-        <a href="https://www.linkedin.com/in/fgreinacher/"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl glass-card text-zinc-200 hover:text-white hover:bg-zinc-800/50 text-sm font-medium transition-all duration-200 active:scale-95">
-          <i data-lucide="linkedin" class="w-4 h-4 text-sky-400"></i>
-          <span>LinkedIn</span>
-        </a>
-
-        <!-- Quick Copy Trigger -->
-        <button id="copyBtn"
-                title="E-Mail kopieren"
-                class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl glass-card text-zinc-300 hover:text-white text-xs font-mono transition-all duration-200 active:scale-95">
-          <i data-lucide="copy" class="w-3.5 h-3.5" id="copyIcon"></i>
-          <span id="copyLabel">florian@greinacher.de</span>
-        </button>
+      <!-- Card 4 -->
+      <div class="p-4 rounded-2xl bg-cardBg border border-cardBorder hover:border-white/20 transition-all duration-200">
+        <div class="flex items-center gap-2.5 mb-2">
+          <span class="text-xs px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 font-mono">04</span>
+          <h2 class="text-sm font-medium text-neutral-200">Aesthetic Standards</h2>
+        </div>
+        <p class="text-xs text-neutral-400 leading-relaxed">
+          Fuelled by espresso. Offended by bad kerning, Comic Sans, and messy cable routing.
+        </p>
       </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="mt-16 pt-8 border-t border-zinc-800/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-500 font-mono animate-fade-in" style="animation-delay: 300ms;">
-      <span>&copy; <span id="year"></span> Florian Greinacher</span>
-      <span class="flex items-center gap-1.5 text-zinc-500">
-        <span>powered by caffeine &amp; bash scripts</span>
-      </span>
-    </footer>
-  </div>
+    </section>
 
-  <!-- Notification Toast for Copied Email -->
-  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-300 glass-card px-4 py-2 rounded-full text-xs font-mono text-zinc-200 shadow-xl border border-zinc-700/60 flex items-center gap-2">
-    <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-    <span>Adresse in die Zwischenablage kopiert</span>
-  </div>
+    <!-- Left-aligned Call to Action -->
+    <div class="mt-10 flex justify-start">
+      <a 
+        href="mailto:florian@greinacher.de" 
+        class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-medium text-neutral-900 bg-white hover:bg-neutral-200 transition-colors shadow-lg shadow-white/5 active:scale-95"
+      >
+        <svg class="w-4 h-4 text-neutral-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+        <span>Say Hello</span>
+      </a>
+    </div>
+
+  </main>
 
   <script>
-    // Initialize Lucide icons
-    lucide.createIcons();
-
-    // Set dynamic current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Interactive Status Ticker easter egg
-    const statusTicker = document.getElementById('statusTicker');
-    const funStatuses = [
-      'status: automating pipelines & debugging teenage logic',
-      'status: explaining why tests shouldn\'t run in prod',
-      'status: trying to keep AI agents from becoming creative',
-      'status: lifting heavy objects to offset sitting at terminals',
-      'status: refactoring bash scripts into something dignified',
-      'status: compiling dinner requirements (conflicts found)'
-    ];
-    let statusIdx = 0;
-    statusTicker.addEventListener('click', () => {
-      statusIdx = (statusIdx + 1) % funStatuses.length;
-      statusTicker.textContent = funStatuses[statusIdx];
-    });
-
-    // Subtle cursor ambient glow movement
+    // Ambient subtle mouse glow
     const glow = document.getElementById('glow');
     window.addEventListener('pointermove', (e) => {
       glow.style.left = `${e.clientX}px`;
       glow.style.top = `${e.clientY}px`;
     });
-
-    // Copy Email functionality with UI feedback
-    const copyBtn = document.getElementById('copyBtn');
-    const copyLabel = document.getElementById('copyLabel');
-    const copyIcon = document.getElementById('copyIcon');
-    const toast = document.getElementById('toast');
-    const emailToCopy = 'florian@greinacher.de';
-
-    copyBtn.addEventListener('click', () => {
-      // Robust iframe-friendly clipboard copy
-      const tempInput = document.createElement('textarea');
-      tempInput.value = emailToCopy;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showToast();
-      } catch (err) {
-        console.error('Kopieren fehlgeschlagen:', err);
-      }
-      document.body.removeChild(tempInput);
-    });
-
-    let toastTimer;
-    function showToast() {
-      // Toast animation
-      toast.classList.remove('opacity-0', 'translate-y-2');
-      toast.classList.add('opacity-100', 'translate-y-0');
-
-      // Button momentary feedback
-      copyLabel.textContent = 'Kopiert!';
-      
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        copyLabel.textContent = emailToCopy;
-      }, 2400);
-    }
   </script>
 </body>
 </html>
